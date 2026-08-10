@@ -1,0 +1,16 @@
+runConfig:
+  runtime: nodejs20
+  maxInstances: 1
+  minInstances: 0
+  concurrency: 80
+
+# Configure these secrets in Firebase App Hosting's environment settings.
+env:
+  - variable: DATABASE_URL
+    secret: DATABASE_URL
+  - variable: BLOB_READ_WRITE_TOKEN
+    secret: BLOB_READ_WRITE_TOKEN
+  - variable: DOWNLOAD_LINK_SECRET
+    secret: DOWNLOAD_LINK_SECRET
+  - variable: NODE_ENV
+    value: production

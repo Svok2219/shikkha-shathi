@@ -1,10 +1,11 @@
 import { getBlob } from '@/lib/blob'
 import { NextRequest, NextResponse } from 'next/server'
 import { pool } from '@/lib/db'
+import { isAdminRequest } from '@/lib/download-token'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string; kind: string }> }) {
-  if (request.headers.get('x-admin-pass') !== 'lonewolf2026' && request.nextUrl.searchParams.get('pass') !== 'lonewolf2026') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { id, kind } = await params
+  if (!isAdminRequest(request, request.nextUrl.searchParams.get('token'), id, kind)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const column = kind === 'marksheet' ? 'marksheet_path' : kind === 'proof' ? 'proof_path' : null
   if (!column) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   try {
